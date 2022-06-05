@@ -1,36 +1,111 @@
-<html>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <title>Practicum Demo</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.1.0/dist/tagify.css" />
     <link rel="stylesheet" href="../static/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@yaireo/tagify"></script>
-    <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
-    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
-    <script src="{{ url_for('static',filename='../static/main.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@3.1.0/dist/tagify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+</head>
     <body>
-        <h1 class="text-white">Practicum - BRG</h1>
+        <h1 class="text-white" style="color:white">Practicum - BRG</h1>
         <form action="{{ url_for('oo') }}" method='POST'>
         <div class="form-body">
-            <div class="row">
-                <div class="form-holder">
+{#            <div class="row">#}
+{#                <div class="form-holder">#}
                     <div class="form-content">
                         <div class="form-items">
                             <h3>Legal document creation assistant</h3>
                             <p>Start with some few words below if necessary.</p>
                             <form class="requires-validation" novalidate>
                                 <div class="col">
-                                   <textarea class="form-control" rows="35" type="text" name="name" placeholder="Try Typing..." required></textarea>
-                                   <div class="valid-feedback">Username field is valid!</div>
-                                   <div class="invalid-feedback">Username field cannot be blank!</div>
-                                    <input type="text" id="#inputTag" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput">
+                                    <!--<div class="invalid-feedback">Username field cannot be blank!</div>
+                                    <input id="tagify-1" name="tags" type="text" /> <br />-->
+                                    <div class="form-group">
+                                        <label class="form-label">Keyword input</label>
+                                        <input type="text" name='basic' class='tag' value="Legal, Policy Creation" placeholder="Insert Tags" />
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="click" onclick='myfunction_clickevent()' style="height:40px;width:200px">Generate Text</button>
+                                        <!--<button id="click" style="height:40px;width:200px">Generate Text</button>-->
+                                    </div>
+                                    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+                                    <!--<div class="showsource">show sourcecode</div>-->
+                                    <script>
+                                            var input = document.querySelector('input[name=basic]');
+
+                                            var tagify = new Tagify(input);
+                                            var tags = [];
+                                            {#tags.push(n);#}
+                                            //tagify.addTags(tags);
+
+                                            // click handler
+                                            //function onClick(event) {
+                                            //  var titles = $('input[name=basic]').map(function(idx, elem) {
+                                            //    return $(elem).val();
+                                            //  }).get();
+
+                                            //  console.log(titles);
+                                            //  event.preventDefault();
+
+                                            //  $.ajax({
+                                            //        url:"/pred",
+                                            //        // Type of Request
+                                            //        type: "POST",
+                                            //        data: "{" + titles + "}",
+                                            //        contentType: "application/json; charset=utf-8",
+                                            //        dataType: "json",
+                                            //    });
+                                            //}
+
+                                            // attach button click listener on dom ready
+                                            //$("click").on("click", onClick)
+                                            //$(function() {
+                                            //  $('button').click(onClick);
+                                            //});
+
+                                            function myfunction_clickevent(){
+                                                //var titles = $('input[name=basic]').map(function(idx, elem) {
+                                                //    return $(elem).val();
+                                                //}).get();
+                                                //console.log(titles)
+                                                types = [];
+                                                $('input[name=basic]').each(function() {
+                                                    types.push($(this).val());
+                                                });
+                                                console.log(types);
+                                                myArr = JSON.parse(types)
+                                                $.ajax({
+                                                    url:"/pred",
+                                                    // Type of Request
+                                                    type: "GET",
+                                                    data: "{" + types + "}",
+                                                    //contentType: "application/json; charset=utf-8",
+                                                    dataType: "json",
+                                                });
+                                            }
+                                            //$("#click").on("click", function() {
+                                            //  <!--var n = "ADD_IT_" + Math.random();-->
+                                            //  var tags = [];
+                                            //  tags.push(n);
+                                            //  tagify.addTags(tags);
+                                            //})
+                                    </script>
+                                    <!--<input name='tags' class='form-control' placeholder='write some tags' value='css, html, javascript' autofocus>-->
+                                    <!--<input type="text" id="#inputTag" value="Legal, Receiving Party, Policy" data-role="tagsinput">-->
+                                    <!--<div class="valid-feedback">Username field is valid!</div>-->
+                                    <textarea class="form-group" rows="35" type="text" name="name" placeholder="Try Typing..." style="height:300px; width:800px; margin-top: 5%"></textarea>
                                 </div>
-                            <div class="form-check">
+                            <!--<div class="form-check">
                               <input class="form-check-input" type="checkbox" value="" id='agree' required/>
                               <label class="form-check-label">This software comes without any warranty, We are not liable for any damage caused for using this software</label>
                              <div class="invalid-feedback">Please check the box above</div>
-                            </div>
-                                <div class="form-button mt-3">
-                                    <input type="submit" name="sendbutton" id="sendbutton" value=" Send " />
-                                </div>
+                            </div>-->
+{#                                <div class="form-button mt-3">#}
+{#                                    <button type="button" name="sendButton" id="sendButton" value=" Send " ></button>#}
+{#                                </div>#}
                             </form>
                         </div>
                     </div>
@@ -40,5 +115,5 @@
         </form>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
-</html>
 
+</html>
